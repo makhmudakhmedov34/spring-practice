@@ -1,1 +1,1 @@
-                           CYDEO JAVA DEVELOPER COURSE
+                           CYDEO JAVA DEVELOPER PROGRAM
