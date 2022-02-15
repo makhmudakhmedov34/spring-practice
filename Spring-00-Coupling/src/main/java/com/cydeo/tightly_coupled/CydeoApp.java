@@ -1,14 +1,14 @@
-package com.cydeo.loosely_coupled;
+package com.cydeo.tightly_coupled;
 
 public class CydeoApp {
     public static void main(String[] args) {
 
         FullTimeMentor fullTime = new FullTimeMentor();
-        //PartTimeMentor partTime = new PartTimeMentor();
+        PartTimeMentor partTime = new PartTimeMentor();
 
-        MentorAccount mentor = new MentorAccount(fullTime);
-
+        Mentor mentor = new Mentor(fullTime,partTime); //MI
         mentor.manageAccount();
 
+        //MI
     }
 }
