@@ -8,6 +8,7 @@ public class HomeController {
 
     @RequestMapping("/home") //Use @RequestMapping annotation to associate the action with an HTTP request path
     public String home(){
+        
         return "home.html"; //Return the HTML document name that contains the details we want the browser to display
     }
 
