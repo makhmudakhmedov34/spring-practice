@@ -38,7 +38,7 @@ public class StudentController {
 
 
 
-        return "/student/welcome";
+        return "student/welcome";
     }
 
 
