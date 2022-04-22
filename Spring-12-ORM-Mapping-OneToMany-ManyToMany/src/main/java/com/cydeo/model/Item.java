@@ -22,5 +22,8 @@ public class Item {
     @ManyToMany(mappedBy = "itemList")
     private List<Cart> cart;
 
-
+    public Item(String name, String code) {
+        this.name = name;
+        this.code = code;
+    }
 }
