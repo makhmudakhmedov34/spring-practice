@@ -94,6 +94,12 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     List<Employee> getEmployeeSalaryOrderDesc();
 
 
+    @Query(value = "SELECT * FROM employees WHERE salary ?1",nativeQuery = true)
+    List<Employee> readEmployeeDetailBySalary(int salary);
+
+
+
+
 
 
 
