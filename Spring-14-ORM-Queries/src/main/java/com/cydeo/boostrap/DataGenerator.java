@@ -58,6 +58,26 @@ public class DataGenerator implements CommandLineRunner {
 
         courseRepository.findByCategory("Spring").forEach(System.out::println);
 
+        System.out.println("---------------------------");
+
+        courseRepository.findByCategoryOrderByName("Spring").forEach(System.out::println);
+
+        System.out.println("---------------------------");
+
+        System.out.println(courseRepository.existsByName("JavaScript for All"));
+
+        System.out.println("---------------------------");
+
+        System.out.println(courseRepository.countByCategory("Spring"));
+
+        System.out.println("---------------------------");
+
+        courseRepository.findByNameStartsWith("Scalable").forEach(System.out::println);
+
+        System.out.println("---------------------------");
+
+        courseRepository.streamByCategory("Spring").forEach(System.out::println);
+
 
 
         System.out.println("-----------------COURSE  END-----------------");
