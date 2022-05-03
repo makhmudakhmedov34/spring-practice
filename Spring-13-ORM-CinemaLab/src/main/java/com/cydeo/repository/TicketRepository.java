@@ -33,6 +33,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     //Write a native query that returns all tickets
 
-    //Write a native query to list all tickets where a specific value should be containable in the username or name or movie name
+    //Write a native query to list all tickets where a specific value should be containable in the username or account name or movie name
 
 }
