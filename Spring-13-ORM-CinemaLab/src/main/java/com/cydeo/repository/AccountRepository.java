@@ -35,6 +35,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     //Write a native query to read all accounts that a specific value can be containable in the name, address, country, state city
 
-    //Write a native query to read all accounts with an age lower than a specific value
+    //Write a native query to read all accounts with an age higher than a specific value
 
 }
