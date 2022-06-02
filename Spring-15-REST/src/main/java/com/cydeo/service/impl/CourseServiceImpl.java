@@ -1,46 +1,60 @@
 package com.cydeo.service.impl;
 
-import com.cydeo.model.Course;
+import com.cydeo.dto.CourseDTO;
+import com.cydeo.entity.Course;
 import com.cydeo.repository.CourseRepository;
 import com.cydeo.service.CourseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cydeo.util.MapperUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
 
     private CourseRepository courseRepository;
+    private final MapperUtil mapperUtil;
 
-    @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository) {
+    public CourseServiceImpl(CourseRepository courseRepository, MapperUtil mapperUtil) {
         this.courseRepository = courseRepository;
+        this.mapperUtil = mapperUtil;
     }
 
     @Override
-    public Course createCourse(Course course) {
-        return courseRepository.save(course);
+    public CourseDTO createCourse(CourseDTO course) {
+
+        courseRepository.save(mapperUtil.convert(course, new Course()));
+
+        return course;
     }
 
     @Override
-    public Optional<Course> getCourseById(long courseId) {
-        return courseRepository.findById(courseId);
+    public CourseDTO getCourseById(long courseId) {
+
+        Course course = courseRepository.findById(courseId).get();
+
+        return mapperUtil.convert(course, new CourseDTO());
     }
 
     @Override
-    public List<Course> getCoursesByCategory(String category) {
-        return courseRepository.findAllByCategory(category);
+    public List<CourseDTO> getCoursesByCategory(String category) {
+
+        List<Course> list = courseRepository.findAllByCategory(category);
+        return list.stream().map(obj -> mapperUtil.convert(obj, new CourseDTO())).collect(Collectors.toList());
     }
 
     @Override
-    public List<Course> getCourses() {
-        return courseRepository.findAll();
+    public List<CourseDTO> getCourses() {
+        List<Course> list = courseRepository.findAll();
+
+        return list.stream().map(obj -> mapperUtil.convert(obj, new CourseDTO())).collect(Collectors.toList());
     }
 
     @Override
-    public void updateCourse(Long courseId, Course course) {
+    public void updateCourse(Long courseId, CourseDTO courseDTO) {
+
+        Course course = mapperUtil.convert(courseDTO, new Course());
 
         courseRepository.findById(courseId).ifPresent(dbCourse -> {
             dbCourse.setName(course.getName());
@@ -50,7 +64,6 @@ public class CourseServiceImpl implements CourseService {
 
             courseRepository.save(dbCourse);
         });
-
     }
 
     @Override

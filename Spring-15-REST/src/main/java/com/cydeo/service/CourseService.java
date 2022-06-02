@@ -1,21 +1,20 @@
 package com.cydeo.service;
 
-import com.cydeo.model.Course;
+import com.cydeo.dto.CourseDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CourseService {
 
-    Course createCourse(Course course);
+    CourseDTO createCourse(CourseDTO courseDTO);
 
-    Optional<Course> getCourseById(long courseId);
+    CourseDTO getCourseById(long courseId);
 
-    List<Course> getCoursesByCategory(String category);
+    List<CourseDTO> getCoursesByCategory(String category);
 
-    List<Course> getCourses();
+    List<CourseDTO> getCourses();
 
-    void updateCourse(Long courseId, Course course);
+    void updateCourse(Long courseId, CourseDTO courseDTO);
 
     void deleteCourseById(long courseId);
 

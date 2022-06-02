@@ -1,4 +1,4 @@
-package com.cydeo.model;
+package com.cydeo.dto;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "COURSES")
-public class Course {
+public class CourseDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
