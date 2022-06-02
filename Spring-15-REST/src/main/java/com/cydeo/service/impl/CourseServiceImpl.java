@@ -1,13 +1,13 @@
 package com.cydeo.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.cydeo.model.Course;
 import com.cydeo.repository.CourseRepository;
 import com.cydeo.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -50,6 +50,7 @@ public class CourseServiceImpl implements CourseService {
 
             courseRepository.save(dbCourse);
         });
+
     }
 
     @Override

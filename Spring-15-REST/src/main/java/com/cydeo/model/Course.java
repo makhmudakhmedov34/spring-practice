@@ -1,6 +1,6 @@
 package com.cydeo.model;
 
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
 
@@ -25,4 +25,5 @@ public class Course {
 
     @Column(name = "DESCRIPTION")
     private String description;
+
 }
