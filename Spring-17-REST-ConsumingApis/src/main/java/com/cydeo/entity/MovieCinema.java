@@ -19,11 +19,9 @@ public class MovieCinema extends BaseEntity {
     private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonIgnore
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonIgnore
     private Cinema cinema;
 
 }
