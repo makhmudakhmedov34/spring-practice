@@ -1,5 +1,6 @@
 package com.cydeo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,9 +21,11 @@ public class MovieCinema extends BaseEntity{
     private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Cinema cinema;
 
     @Override
