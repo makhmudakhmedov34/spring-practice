@@ -1,8 +1,10 @@
 package com.cydeo.service;
 
 import com.cydeo.dto.CourseDTO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 public interface CourseService {
 
