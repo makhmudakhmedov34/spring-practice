@@ -1,4 +1,4 @@
-package com.cydeo.contoller;
+package com.cydeo.controller;
 
 import com.cydeo.entity.Student;
 import com.cydeo.service.StudentService;

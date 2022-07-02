@@ -1,4 +1,4 @@
-package com.cydeo.contoller;
+package com.cydeo.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
