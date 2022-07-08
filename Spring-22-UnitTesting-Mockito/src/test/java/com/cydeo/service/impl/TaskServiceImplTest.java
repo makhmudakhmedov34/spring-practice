@@ -1,12 +1,16 @@
 package com.cydeo.service.impl;
 
+import com.cydeo.dto.ProjectDTO;
+import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.TaskDTO;
+import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.Project;
 import com.cydeo.entity.Role;
 import com.cydeo.entity.Task;
 import com.cydeo.entity.User;
 import com.cydeo.enums.Gender;
 import com.cydeo.enums.Status;
+import com.cydeo.mapper.MapperUtil;
 import com.cydeo.mapper.ProjectMapper;
 import com.cydeo.mapper.TaskMapper;
 import com.cydeo.repository.TaskRepository;
@@ -15,14 +19,18 @@ import com.cydeo.repository.UserRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +61,170 @@ class TaskServiceImplTest {
     @Mock
     TaskMapper taskMapper;
 
+    @Mock
+    MapperUtil mapperUtil;
+
     @InjectMocks
     TaskServiceImpl taskServiceImpl;
+
+    static Role managerRole = new Role();
+    static Role employeeRole = new Role();
+
+    static RoleDTO managerRoleDTO = new RoleDTO();
+    static RoleDTO employeeRoleDTO = new RoleDTO();
+
+    static User managerUser = new User();
+    static User employeeUser = new User();
+
+    static UserDTO managerUserDTO = new UserDTO();
+    static UserDTO employeeUserDTO = new UserDTO();
+
+    static Project project = new Project();
+
+    static ProjectDTO projectDTO = new ProjectDTO();
+
+    static Task task1 = new Task();
+    static Task task2 = new Task();
+    static Task task3 = new Task();
+
+    @BeforeAll
+    static void setUp() {
+
+        managerRole.setDescription("Manager");
+        managerRole.setId(2L);
+        managerRole.setInsertDateTime(LocalDateTime.now());
+        managerRole.setInsertUserId(1L);
+        managerRole.setIsDeleted(false);
+        managerRole.setLastUpdateDateTime(LocalDateTime.now());
+        managerRole.setLastUpdateUserId(1L);
+
+        employeeRole.setDescription("Employee");
+        employeeRole.setId(3L);
+        employeeRole.setInsertDateTime(LocalDateTime.now());
+        employeeRole.setInsertUserId(1L);
+        employeeRole.setIsDeleted(false);
+        employeeRole.setLastUpdateDateTime(LocalDateTime.now());
+        employeeRole.setLastUpdateUserId(1L);
+
+        managerRoleDTO.setDescription("Manager");
+        managerRoleDTO.setId(2L);
+
+        employeeRoleDTO.setDescription("Employee");
+        employeeRoleDTO.setId(2L);
+
+        managerUser.setEnabled(true);
+        managerUser.setFirstName("Mike");
+        managerUser.setGender(Gender.MALE);
+        managerUser.setId(2L);
+        managerUser.setInsertDateTime(LocalDateTime.now());
+        managerUser.setInsertUserId(1L);
+        managerUser.setIsDeleted(false);
+        managerUser.setLastName("Smith");
+        managerUser.setLastUpdateDateTime(LocalDateTime.now());
+        managerUser.setLastUpdateUserId(1L);
+        managerUser.setPassWord("Abc1");
+        managerUser.setPhone("4105551212");
+        managerUser.setRole(managerRole);
+        managerUser.setUserName("mikesmith@email.com");
+
+        employeeUser.setEnabled(true);
+        employeeUser.setFirstName("John");
+        employeeUser.setGender(Gender.MALE);
+        employeeUser.setId(3L);
+        employeeUser.setInsertDateTime(LocalDateTime.now());
+        employeeUser.setInsertUserId(1L);
+        employeeUser.setIsDeleted(false);
+        employeeUser.setLastName("Doe");
+        employeeUser.setLastUpdateDateTime(LocalDateTime.now());
+        employeeUser.setLastUpdateUserId(1L);
+        employeeUser.setPassWord("Abc1");
+        employeeUser.setPhone("4122251212");
+        employeeUser.setRole(employeeRole);
+        employeeUser.setUserName("johndoe@email.com");
+
+        managerUserDTO.setEnabled(true);
+        managerUserDTO.setFirstName("Mike");
+        managerUserDTO.setGender(Gender.MALE);
+        managerUserDTO.setId(2L);
+        managerUserDTO.setLastName("Smith");
+        managerUserDTO.setPassWord("Abc1");
+        managerUserDTO.setPhone("4105551212");
+        managerUserDTO.setRole(managerRoleDTO);
+        managerUserDTO.setUserName("mikesmith@email.com");
+
+        employeeUserDTO.setEnabled(true);
+        employeeUserDTO.setFirstName("John");
+        employeeUserDTO.setGender(Gender.MALE);
+        employeeUserDTO.setId(3L);
+        employeeUserDTO.setLastName("Doe");
+        employeeUserDTO.setPassWord("Abc1");
+        employeeUserDTO.setPhone("4122251212");
+        employeeUserDTO.setRole(employeeRoleDTO);
+        employeeUserDTO.setUserName("johndoe@email.com");
+
+        project.setAssignedManager(managerUser);
+        project.setEndDate(LocalDate.now().plusDays(10));
+        project.setId(1L);
+        project.setInsertDateTime(LocalDateTime.now());
+        project.setInsertUserId(2L);
+        project.setIsDeleted(false);
+        project.setLastUpdateDateTime(LocalDateTime.now());
+        project.setLastUpdateUserId(2L);
+        project.setProjectCode("PR001");
+        project.setProjectDetail("Project Detail");
+        project.setProjectName("Project Name");
+        project.setProjectStatus(Status.OPEN);
+        project.setStartDate(LocalDate.now());
+
+        projectDTO.setAssignedManager(managerUserDTO);
+        projectDTO.setEndDate(LocalDate.now().plusDays(10));
+        projectDTO.setId(1L);
+        projectDTO.setProjectCode("PR001");
+        projectDTO.setProjectDetail("Project Detail");
+        projectDTO.setProjectName("Project Name");
+        projectDTO.setProjectStatus(Status.OPEN);
+        projectDTO.setStartDate(LocalDate.now());
+
+        task1.setAssignedDate(LocalDate.now());
+        task1.setAssignedEmployee(employeeUser);
+        task1.setId(1L);
+        task1.setInsertDateTime(LocalDateTime.now());
+        task1.setInsertUserId(3L);
+        task1.setIsDeleted(false);
+        task1.setLastUpdateDateTime(LocalDateTime.now());
+        task1.setLastUpdateUserId(3L);
+        task1.setProject(project);
+        task1.setTaskDetail("Task Detail");
+        task1.setTaskStatus(Status.OPEN);
+        task1.setTaskSubject("Hello from the Dreaming Spires");
+
+        task2.setAssignedDate(LocalDate.now());
+        task2.setAssignedEmployee(employeeUser);
+        task2.setId(2L);
+        task2.setInsertDateTime(LocalDateTime.now());
+        task2.setInsertUserId(3L);
+        task2.setIsDeleted(false);
+        task2.setLastUpdateDateTime(LocalDateTime.now());
+        task2.setLastUpdateUserId(3L);
+        task2.setProject(project);
+        task2.setTaskDetail("Task Detail");
+        task2.setTaskStatus(Status.OPEN);
+        task2.setTaskSubject("Hello from the Dreaming Spires");
+
+        task3.setAssignedDate(LocalDate.now());
+        task3.setAssignedEmployee(employeeUser);
+        task3.setId(3L);
+        task3.setInsertDateTime(LocalDateTime.now());
+        task3.setInsertUserId(3L);
+        task3.setIsDeleted(false);
+        task3.setLastUpdateDateTime(LocalDateTime.now());
+        task3.setLastUpdateUserId(3L);
+        task3.setProject(project);
+        task3.setTaskDetail("Task Detail");
+        task3.setTaskStatus(Status.OPEN);
+        task3.setTaskSubject("Hello from the Dreaming Spires");
+
+    }
 
     @ParameterizedTest
     @ValueSource(longs = {1L, 2L, 3L, -5L})
@@ -94,6 +264,33 @@ class TaskServiceImplTest {
         // Then
         then(taskRepository).should().findById(anyLong());
         then(taskRepository).should(never()).findById(-5L);
+
+    }
+
+    @Test
+    void findAll_test() {
+
+        List<Task> repositoryResult = new ArrayList<>(List.of(task1, task2, task3));
+
+        when(taskRepository.findAll()).thenReturn(repositoryResult);
+        when(mapperUtil.convert(any(), new TaskDTO())).thenReturn(new TaskDTO());
+//        when(mapperUtil.convert(task2, new TaskDTO())).thenReturn(new TaskDTO());
+//        when(mapperUtil.convert(task3, new TaskDTO())).thenReturn(new TaskDTO());
+
+        List<TaskDTO> result = taskServiceImpl.listAllTasks();
+
+        verify(taskRepository).findAll();
+        verify(mapperUtil, times(3)).convert(any(Task.class), any(TaskDTO.class));
+
+//        InOrder inOrder = inOrder(mapperUtil);
+//
+//        inOrder.verify(mapperUtil).convert(task1, new TaskDTO());
+//        inOrder.verify(mapperUtil).convert(task2, new TaskDTO());
+//        inOrder.verify(mapperUtil).convert(task3, new TaskDTO());
+
+        assertEquals(3, result.size());
+        assertNotNull(result);
+        assertInstanceOf(ArrayList.class, result);
 
     }
 
